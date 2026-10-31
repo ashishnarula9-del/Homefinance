@@ -23,14 +23,15 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
     subprojects {
-    // When a subproject applies the Android library or application plugin, force compileSdk to 36
+    // When a subproject applies the Android library plugin
     plugins.withId("com.android.library") {
-        extensions.configure<com.android.build.gradle.LibraryExtension> {
+        extensions.configure<com.android.build.api.dsl.LibraryExtension> {
             compileSdk = 36
         }
     }
+    // When a subproject applies the Android application plugin
     plugins.withId("com.android.application") {
-        extensions.configure<com.android.build.gradle.AppExtension> {
+        extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
             compileSdk = 36
         }
     }
