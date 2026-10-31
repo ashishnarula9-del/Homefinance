@@ -1,0 +1,14 @@
+FAMILY FINANCE v1.0.1 TEST CHECKLIST
+
+1. Install over v1.0.0 without uninstalling.
+2. Confirm existing users/accounts/categories/transactions remain present.
+3. Create one Income and one Expense. They should have normal transaction appearance.
+4. Edit the Expense. It should show an EDITED badge with light amber/orange highlighting.
+5. Open its menu > View original / history. Confirm ORIGINAL shows pre-edit values and CURRENT shows edited values.
+6. Delete the Income. It should remain visible in the full Transactions screen with a DELETED badge/light red highlighting.
+7. Confirm the deleted Income no longer affects Home totals, account balance or Reports.
+8. Tap/menu the deleted transaction and confirm its original transaction can still be viewed.
+9. Create a transfer, edit it, and confirm both transfer sides are marked EDITED.
+10. Delete the transfer and confirm both sides are retained as DELETED in Transactions but excluded from balances/reports.
+11. Wi-Fi sync two devices running v1.0.1 and confirm edited/deleted status plus history reaches the other device.
+12. Run Backup Now and verify backup sharing still works.

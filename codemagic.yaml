@@ -1,0 +1,65 @@
+workflows:
+  ios_unsigned_check:
+    name: Home Finance 1.0.5 iOS Compile Check
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Get Flutter packages
+        script: flutter pub get
+      - name: Ensure iOS runner exists
+        script: |
+          if [ ! -f ios/Runner/Info.plist ]; then
+            flutter create --platforms=ios .
+          fi
+          dart run tool/prepare_ios.dart
+          dart run flutter_launcher_icons
+      - name: Install CocoaPods
+        script: |
+          cd ios
+          pod install
+      - name: Flutter analyze
+        script: flutter analyze
+      - name: Compile iOS release without signing
+        script: flutter build ios --release --no-codesign --build-name=1.0.5 --build-number=15
+    artifacts:
+      - build/ios/iphoneos/Runner.app
+
+  ios_testflight:
+    name: Home Finance 1.0.5 TestFlight
+    max_build_duration: 60
+    integrations:
+      app_store_connect: HomeFinanceAppStoreConnect
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.example.familyfinance
+    scripts:
+      - name: Get Flutter packages
+        script: flutter pub get
+      - name: Prepare iOS project
+        script: |
+          if [ ! -f ios/Runner/Info.plist ]; then
+            flutter create --platforms=ios .
+          fi
+          dart run tool/prepare_ios.dart
+          dart run flutter_launcher_icons
+      - name: Install CocoaPods
+        script: |
+          cd ios
+          pod install
+      - name: Apply signing profiles
+        script: xcode-project use-profiles
+      - name: Build signed IPA
+        script: flutter build ipa --release --build-name=1.0.5 --build-number=15
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

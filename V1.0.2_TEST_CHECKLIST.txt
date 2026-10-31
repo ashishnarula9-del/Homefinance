@@ -1,0 +1,43 @@
+FAMILY FINANCE v1.0.2 — ANDROID + iPHONE TEST CHECKLIST
+
+UPGRADE
+[ ] Install over v1.0.1 without uninstalling.
+[ ] Existing users, accounts, categories, transactions and edit/deletion history remain present.
+[ ] Home and Reports still show correct figures.
+
+LOCAL BACKUP
+[ ] Backup Now creates a .db backup and opens Share.
+[ ] View Local Backups lists the backup.
+[ ] Backup preview shows users/accounts/transactions/schema/size.
+[ ] Automatic backup can be turned on/off.
+
+RESTORE
+[ ] Create a test transaction after a backup.
+[ ] Restore the earlier backup.
+[ ] Confirm the test transaction disappears and earlier data returns.
+[ ] Confirm a pre-restore backup exists after restore.
+[ ] Confirm app restarts/continues normally after restore.
+[ ] Confirm Wi-Fi Sync still works after restore.
+
+GOOGLE DRIVE
+[ ] Configure Google OAuth + Drive API first.
+[ ] Connect Google Drive successfully.
+[ ] Backup Now appears in Home Finance/Backups/Manual.
+[ ] Sync Backup Folder Now uploads pending automatic/safety backups.
+[ ] Restore from Google Drive lists Drive backups.
+[ ] Download/preview a Drive backup.
+[ ] Restore a Drive backup successfully.
+[ ] Turn internet off: local backup still succeeds.
+[ ] Turn internet on: pending backup uploads later.
+
+CROSS-PLATFORM
+[ ] Create backup on Android and upload to Drive.
+[ ] On iPhone, connect same Google account and restore that backup.
+[ ] Verify users/accounts/categories/transactions/history.
+[ ] Add one transaction on iPhone and use Wi-Fi Sync to send it to Android.
+[ ] Repeat a backup from iPhone and verify it can be restored on Android.
+
+SAFETY
+[ ] Edited transaction remains marked EDITED and original history remains viewable.
+[ ] Deleted transaction remains marked DELETED in Transactions and excluded from balances/reports.
+[ ] Transfer edit/delete history remains linked correctly.

@@ -1,0 +1,42 @@
+FAMILY FINANCE v1.0.0 FINAL - SHORT RELEASE CHECKLIST
+
+UPGRADE
+[ ] Install over v0.9.0/v0.1.4 without uninstalling.
+[ ] Existing users, accounts, categories and transactions remain present.
+[ ] Data & App Info shows v1.0.0 / schema 4 / Final.
+
+CORE LEDGER
+[ ] Add Income.
+[ ] Add Expense.
+[ ] Add Transfer.
+[ ] Edit one transaction.
+[ ] Delete one transaction.
+[ ] Home Income/Expense totals are correct.
+[ ] Home shows maximum 6 recent transactions.
+[ ] Member Cash accounts and other accounts show correct balances.
+[ ] Reports and User -> Account dependent filter still work.
+[ ] Calendar Year and Financial Year remain separate.
+[ ] PDF/XLSX export still works.
+
+AUTOMATIC BACKUP
+[ ] More > Data & App Info shows Automatic local backup ON.
+[ ] Toggle OFF then ON; enabling creates/updates the last automatic backup time.
+[ ] Backup Now still opens the Android share sheet.
+
+WI-FI SYNC - TWO PHONES
+[ ] Both phones run v1.0.0 and are on the same Wi-Fi.
+[ ] Main phone: Start Host Sync.
+[ ] Host IP and 6-digit code are displayed.
+[ ] Second phone: enter IP/code and Sync Now.
+[ ] Sync completes without error.
+[ ] Existing users/accounts/transactions appear on second phone.
+[ ] Add one Expense on phone 2, sync again, and confirm it appears on phone 1.
+[ ] Edit that Expense on phone 1, sync again, and confirm latest edit appears on phone 2.
+[ ] Delete a transaction on one phone, sync, and confirm deletion on the other.
+[ ] Stop Host after test.
+
+FINAL APK
+[ ] flutter analyze has no blocking errors.
+[ ] flutter build apk --release succeeds.
+[ ] Rename APK to FamilyFinance_v1.0.0.apk for permanent storage.
+[ ] Keep this exact source ZIP with the final APK.

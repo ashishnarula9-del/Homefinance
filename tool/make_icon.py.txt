@@ -1,0 +1,114 @@
+from PIL import Image, ImageDraw, ImageFont, ImageChops
+import math
+S=3; W=1024*S
+FONT='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+
+def T(pt, scale, cx=512, cy=520):
+    x,y=pt
+    return ((512+(x-cx)*scale)*S, (512+(y-cy)*scale)*S)
+
+def circle(d,pt,r,scale,fill):
+    x,y=T(pt,scale); rr=r*scale*S
+    d.ellipse([x-rr,y-rr,x+rr,y+rr],fill=fill)
+
+def house_shapes(scale):
+    """returns (roof_mask, body_mask, rupee_mask) as L images"""
+    roof=Image.new('L',(W,W),0); body=Image.new('L',(W,W),0); rup=Image.new('L',(W,W),0)
+    d=ImageDraw.Draw(roof)
+    pts=[(150,515),(512,205),(874,515)]
+    tp=[T(p,scale) for p in pts]
+    wdt=84*scale*S
+    d.line(tp,fill=255,width=int(wdt),joint='curve')
+    for p in pts: circle(d,p,42,scale,255)
+    # chimney
+    x0,y0=T((668,235),scale); x1,y1=T((748,390),scale)
+    d.rounded_rectangle([x0,y0,x1,y1],radius=14*scale*S,fill=255)
+    d=ImageDraw.Draw(body)
+    x0,y0=T((236,462),scale); x1,y1=T((788,822),scale)
+    d.rounded_rectangle([x0,y0,x1,y1],radius=52*scale*S,fill=255)
+    # rupee
+    d=ImageDraw.Draw(rup)
+    size=int(360*scale*S)
+    f=ImageFont.truetype(FONT,size)
+    bb=d.textbbox((0,0),'₹',font=f)
+    cxp,cyp=T((512,650),scale)
+    d.text((cxp-(bb[0]+bb[2])/2, cyp-(bb[1]+bb[3])/2),'₹',font=f,fill=255)
+    return roof,body,rup
+
+def paste_color(img,mask,color):
+    layer=Image.new('RGBA',img.size,color); img.paste(layer,(0,0),mask)
+
+def gradient_bg():
+    bg=Image.new('RGBA',(W,W))
+    px=bg.load()
+    top=(22,150,92); bot=(8,98,60)
+    row=[]
+    for y in range(W):
+        t=y/(W-1)
+        row.append(tuple(int(top[i]+(bot[i]-top[i])*t) for i in range(3))+(255,))
+    d=ImageDraw.Draw(bg)
+    for y in range(W): d.line([(0,y),(W,y)],fill=row[y])
+    # soft light glow top-left
+    glow=Image.new('L',(W,W),0); g=ImageDraw.Draw(glow)
+    g.ellipse([-W*0.2,-W*0.35,W*0.75,W*0.5],fill=26)
+    from PIL import ImageFilter
+    glow=glow.filter(ImageFilter.GaussianBlur(W*0.08))
+    paste_color(bg,glow,(255,255,255,255))
+    return bg
+
+GOLD=(255,201,77,255); WHITE=(255,255,255,255); GREEN=(9,104,63,255)
+
+def render_full(scale=1.0):
+    img=gradient_bg()
+    roof,body,rup=house_shapes(scale)
+    # subtle shadow under house
+    from PIL import ImageFilter
+    sh=ImageChops.lighter(roof,body).filter(ImageFilter.GaussianBlur(14*S))
+    sh=sh.point(lambda v:int(v*0.30)); 
+    shifted=ImageChops.offset(sh,0,14*S)
+    paste_color(img,shifted,(0,40,20,255))
+    paste_color(img,body,WHITE)
+    paste_color(img,roof,GOLD)
+    paste_color(img,rup,GREEN)
+    return img
+
+def render_foreground(scale=0.66):
+    img=Image.new('RGBA',(W,W),(0,0,0,0))
+    roof,body,rup=house_shapes(scale)
+    from PIL import ImageFilter
+    sh=ImageChops.lighter(roof,body).filter(ImageFilter.GaussianBlur(10*S))
+    sh=sh.point(lambda v:int(v*0.30)); shifted=ImageChops.offset(sh,0,10*S)
+    paste_color(img,shifted,(0,40,20,255))
+    paste_color(img,body,WHITE); paste_color(img,roof,GOLD); paste_color(img,rup,GREEN)
+    return img
+
+def render_mono(scale=0.66):
+    roof,body,rup=house_shapes(scale)
+    shape=ImageChops.lighter(roof,body)
+    shape=ImageChops.subtract(shape,rup)
+    img=Image.new('RGBA',(W,W),(255,255,255,0))
+    paste_color(img,shape,(255,255,255,255))
+    return img
+
+def save(img,name,flat=False):
+    out=img.resize((1024,1024),Image.LANCZOS)
+    if flat:
+        bg=Image.new('RGB',(1024,1024),(255,255,255)); bg.paste(out,(0,0),out); out=bg
+    out.save(name)
+
+save(render_full(1.0),'app_icon.png',flat=True)
+save(render_foreground(0.66),'app_icon_foreground.png')
+save(render_mono(0.66),'app_icon_monochrome.png')
+# preview: rounded/circle crops like a phone
+full=Image.open('app_icon.png').convert('RGBA').resize((256,256),Image.LANCZOS)
+prev=Image.new('RGBA',(256*3+80,300),(235,235,235,255))
+m=Image.new('L',(256,256),0); ImageDraw.Draw(m).rounded_rectangle([0,0,255,255],radius=58,fill=255)
+prev.paste(full,(20,22),m)
+bgc=Image.new('RGBA',(1024,1024),(14,125,76,255)); fg=Image.open('app_icon_foreground.png').convert('RGBA')
+bgc.alpha_composite(fg); ad=bgc.resize((256,256),Image.LANCZOS)
+mc=Image.new('L',(256,256),0); ImageDraw.Draw(mc).ellipse([0,0,255,255],fill=255)
+prev.paste(ad,(256+40,22),mc)
+mono=Image.open('app_icon_monochrome.png').convert('RGBA').resize((256,256),Image.LANCZOS)
+tile=Image.new('RGBA',(256,256),(60,60,60,255)); tile.alpha_composite(mono)
+prev.paste(tile,(512+60,22),mc)
+prev.save('preview.png')

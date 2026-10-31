@@ -1,0 +1,53 @@
+HOME FINANCE v1.0.2 FINAL TEST CHECKLIST
+
+UPGRADE / BRANDING
+[ ] Install over existing app without uninstalling
+[ ] Existing users/accounts/categories/transactions retained
+[ ] App name shows Home Finance
+[ ] Option 4 launcher icon appears correctly
+
+HOME
+[ ] Total Balance equals sum of active account balances
+[ ] Income / Expense / Net respect selected period
+[ ] Today / Week / Month / Year work
+[ ] Income / Expense / Transfer quick actions work
+[ ] Separate Cash account appears for each member
+[ ] Recent Transactions shows at most six
+[ ] View All opens full transactions
+[ ] Accounts remain grouped member-wise; Shared Accounts separate
+
+TRANSACTION AUDIT
+[ ] Edited transaction shows EDITED colouring/status
+[ ] Original/history remains viewable
+[ ] Deleted transaction remains in history with DELETED status
+[ ] Deleted transaction is excluded from active balances/reports
+
+REPORTS
+[ ] User filter restricts account list
+[ ] Income/Expense category filtering works
+[ ] Today/Week/Month/Calendar Year/FY/Custom work
+[ ] Expense by Category insight matches filtered data
+[ ] PDF and XLSX match current filters
+
+BACKUP / RESTORE / DRIVE
+[ ] Automatic local backup works
+[ ] Manual Backup Now works
+[ ] Backup validation works
+[ ] Pre-restore safety backup is created
+[ ] Restore recovers the selected state
+[ ] Google Drive connects
+[ ] Backup folder uploads/syncs
+[ ] Restore from Google Drive works
+
+WI-FI SYNC
+[ ] Host/client pair on same Wi-Fi
+[ ] New transaction syncs both directions
+[ ] Edited transaction/history syncs
+[ ] Deleted transaction/history syncs
+
+iPHONE
+[ ] Home layout fits target iPhone
+[ ] Local Network permission appears for Wi-Fi Sync
+[ ] Google Drive sign-in succeeds
+[ ] Backup/restore and file sharing work
+[ ] TestFlight build installs and runs

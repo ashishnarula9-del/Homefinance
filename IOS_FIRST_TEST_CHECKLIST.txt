@@ -1,0 +1,22 @@
+FAMILY FINANCE 1.0.1 - FIRST iPHONE TEST
+
+[ ] App opens on physical iPhone
+[ ] Existing screens fit correctly on iPhone display
+[ ] Add Income
+[ ] Add Expense
+[ ] Add Transfer
+[ ] Edit a transaction -> EDITED/history visible
+[ ] Delete a transaction -> DELETED/history preserved
+[ ] Reports open and filters work
+[ ] PDF share sheet opens
+[ ] XLSX share sheet opens
+[ ] Manual Backup share sheet opens
+[ ] Automatic backup remains enabled
+[ ] Local Network permission prompt appears when Wi-Fi Sync is first used
+[ ] iPhone can Host Sync
+[ ] Android can sync to iPhone host
+[ ] Android can Host Sync
+[ ] iPhone can sync to Android host
+[ ] Edit on one device, sync, verify other device receives it
+[ ] Delete on one device, sync, verify audit/deleted state on other device
+[ ] App relaunch retains all data
